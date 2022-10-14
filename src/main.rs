@@ -14,42 +14,40 @@ fn main() {
         stdin().read_line(&mut selection).expect("Invalid input.");
 
         match selection.trim() {
-            "1" => loop {
-                println!("GAME");
-                println!("  r   rock");
-                println!("  p   paper");
-                println!("  s   scissors");
-                println!("Please enter selection:");
+            "1" => {
+                let mut outcome = Outcome::Draw;
+                while outcome == Outcome::Draw {
+                    println!("GAME");
+                    println!("  r   rock");
+                    println!("  p   paper");
+                    println!("  s   scissors");
+                    println!("Please enter selection:");
 
-                let mut input = String::new();
-                stdin().read_line(&mut input).expect("Invalid input.");
+                    let mut input = String::new();
+                    stdin().read_line(&mut input).expect("Invalid input.");
 
-                let player = match input.trim() {
-                    "r" => Item::Rock,
-                    "p" => Item::Paper,
-                    "s" => Item::Scissors,
-                    _ => continue,
-                };
+                    let player = match input.trim() {
+                        "r" => Item::Rock,
+                        "p" => Item::Paper,
+                        "s" => Item::Scissors,
+                        _ => continue,
+                    };
 
-                let opponent = match rng.gen_range(0..3) {
-                    0 => Item::Rock,
-                    1 => Item::Paper,
-                    _ => Item::Scissors,
-                };
+                    let opponent = match rng.gen_range(0..3) {
+                        0 => Item::Rock,
+                        1 => Item::Paper,
+                        _ => Item::Scissors,
+                    };
 
-                println!("Player: {:?} vs. Opponent: {:?}", player, opponent);
-                match check_result(player, opponent) {
-                    Outcome::Draw => println!("It is a draw! Let us have an another round!"),
-                    Outcome::Win => {
-                        println!("You win! Congratulations!");
-                        break;
+                    println!("Player: {:?} vs. Opponent: {:?}", player, opponent);
+                    outcome = check_result(player, opponent);
+                    match outcome {
+                        Outcome::Draw => println!("It's a draw! Let's have an another round!"),
+                        Outcome::Win => println!("You win! Congratulations!"),
+                        Outcome::Lose => println!("You lose! Better luck next time!"),
                     }
-                    Outcome::Lose => {
-                        println!("You lose! Better luck next time!");
-                        break;
-                    }
-                };
-            },
+                }
+            }
             "2" => break,
             x => println!("Invalid input: {x}"),
         }
@@ -63,6 +61,7 @@ enum Item {
     Scissors,
 }
 
+#[derive(PartialEq)]
 enum Outcome {
     Win,
     Draw,
