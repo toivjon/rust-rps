@@ -40,12 +40,13 @@ fn main() {
                         _ => Item::Scissors,
                     };
 
-                    println!("Player: {:?} vs. Opponent: {:?}", player, opponent);
+                    println!("Player   -> {:?}", player);
+                    println!("Opponent -> {:?}", opponent);
                     outcome = check_result(player, opponent);
                     match outcome {
-                        Outcome::Draw => println!("It's a draw! Let's have an another round!"),
-                        Outcome::Win => println!("You win! Congratulations!"),
-                        Outcome::Lose => println!("You lose! Better luck next time!"),
+                        Outcome::Draw => println!("It's a DRAW! Let's have an another round!"),
+                        Outcome::Win => println!("You WIN! Congratulations!"),
+                        Outcome::Lose => println!("You LOSE! Better luck next time!"),
                     }
                 }
             }
