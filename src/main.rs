@@ -27,15 +27,7 @@ fn main() {
                     println!("s : scissors");
                     println!("Please enter selection:");
 
-                    let mut input = String::new();
-                    stdin().read_line(&mut input).expect("Invalid input.");
-
-                    let player = match input.trim() {
-                        "r" => Item::Rock,
-                        "p" => Item::Paper,
-                        "s" => Item::Scissors,
-                        _ => continue,
-                    };
+                    let player = wait_ingame_selection();
 
                     let opponent = match rng.gen_range(0..3) {
                         0 => Item::Rock,
@@ -64,6 +56,7 @@ enum Item {
     Rock,
     Paper,
     Scissors,
+    None,
 }
 
 #[derive(PartialEq)]
@@ -83,22 +76,37 @@ fn wait_menu_selection() -> MenuSelection {
     }
 }
 
+fn wait_ingame_selection() -> Item {
+    let mut input = String::new();
+    stdin().read_line(&mut input).expect("Invalid input.");
+    match input.trim() {
+        "r" => Item::Rock,
+        "p" => Item::Paper,
+        "s" => Item::Scissors,
+        _ => Item::None,
+    }
+}
+
 fn check_result(player_selection: Item, opponent_selection: Item) -> Outcome {
     match player_selection {
         Item::Rock => match opponent_selection {
             Item::Rock => Outcome::Draw,
             Item::Paper => Outcome::Lose,
             Item::Scissors => Outcome::Win,
+            Item::None => panic!("Invalid opponent selection!"),
         },
         Item::Paper => match opponent_selection {
             Item::Rock => Outcome::Win,
             Item::Paper => Outcome::Draw,
             Item::Scissors => Outcome::Lose,
+            Item::None => panic!("Invalid opponent selection!"),
         },
         Item::Scissors => match opponent_selection {
             Item::Rock => Outcome::Lose,
             Item::Paper => Outcome::Win,
             Item::Scissors => Outcome::Draw,
+            Item::None => panic!("Invalid opponent selection!"),
         },
+        Item::None => panic!("Invalid player selection!"),
     }
 }
