@@ -21,18 +21,34 @@ fn main() {
                 println!("  s   scissors");
                 println!("Please enter selection:");
 
-                let mut player_selection = String::new();
-                stdin().read_line(&mut player_selection).expect("Invalid input.");
+                let mut input = String::new();
+                stdin().read_line(&mut input).expect("Invalid input.");
 
-                let opponent_selection = match rng.gen_range(0..3) {
-                    0 => "r",
-                    1 => "p",
-                    _ => "s",
+                let player = match input.trim() {
+                    "r" => Item::Rock,
+                    "p" => Item::Paper,
+                    "s" => Item::Scissors,
+                    _ => continue,
                 };
 
-                if check_result(player_selection.trim(), opponent_selection) {
-                    break;
-                }
+                let opponent = match rng.gen_range(0..3) {
+                    0 => Item::Rock,
+                    1 => Item::Paper,
+                    _ => Item::Scissors,
+                };
+
+                println!("Player: {:?} vs. Opponent: {:?}", player, opponent);
+                match check_result(player, opponent) {
+                    Outcome::Draw => println!("It is a draw! Let us have an another round!"),
+                    Outcome::Win => {
+                        println!("You win! Congratulations!");
+                        break;
+                    }
+                    Outcome::Lose => {
+                        println!("You lose! Better luck next time!");
+                        break;
+                    }
+                };
             },
             "2" => break,
             x => println!("Invalid input: {x}"),
@@ -40,45 +56,35 @@ fn main() {
     }
 }
 
-fn check_result(player_selection: &str, opponent_selection: &str) -> bool {
-    let mut should_break = false;
-    match player_selection.trim() {
-        "r" if opponent_selection == "p" => {
-            println!("You selected rock and opponent selected paper. Opponent wins!");
-            should_break = true;
-        }
-        "r" if opponent_selection == "s" => {
-            println!("You selected rock and opponent selected scissors. You win!");
-            should_break = true;
-        }
-        "r" if opponent_selection == "r" => {
-            println!("You selected rock and opponent selected rock. It's a draw!")
-        }
-        "p" if opponent_selection == "s" => {
-            println!("You selected paper and opponent selected scissors. Opponent wins!");
-            should_break = true;
-        }
-        "p" if opponent_selection == "r" => {
-            println!("You selected paper and opponent selected rock. You win!");
-            should_break = true;
-        }
-        "p" if opponent_selection == "p" => {
-            println!("You selected paper and opponent selected paper. It's a draw!")
-        }
-        "s" if opponent_selection == "r" => {
-            println!("You selected scissors and opponent selected rock. Opponent wins!");
-            should_break = true;
-        }
-        "s" if opponent_selection == "p" => {
-            println!("You selected scissors and opponent selected paper. You win!");
-            should_break = true;
-        }
-        "s" if opponent_selection == "p" => {
-            println!("You selected scissors and opponent selected scissors. It's a draw!")
-        }
-        _ => {
-            should_break = true;
-        }
+#[derive(Debug)]
+enum Item {
+    Rock,
+    Paper,
+    Scissors,
+}
+
+enum Outcome {
+    Win,
+    Draw,
+    Lose,
+}
+
+fn check_result(player_selection: Item, opponent_selection: Item) -> Outcome {
+    match player_selection {
+        Item::Rock => match opponent_selection {
+            Item::Rock => Outcome::Draw,
+            Item::Paper => Outcome::Lose,
+            Item::Scissors => Outcome::Win,
+        },
+        Item::Paper => match opponent_selection {
+            Item::Rock => Outcome::Win,
+            Item::Paper => Outcome::Draw,
+            Item::Scissors => Outcome::Lose,
+        },
+        Item::Scissors => match opponent_selection {
+            Item::Rock => Outcome::Lose,
+            Item::Paper => Outcome::Win,
+            Item::Scissors => Outcome::Draw,
+        },
     }
-    should_break
 }
