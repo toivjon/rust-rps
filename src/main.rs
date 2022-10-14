@@ -1,6 +1,12 @@
 use rand::{self, Rng};
 use std::io::stdin;
 
+enum MenuSelection {
+    Play,
+    Quit,
+    None,
+}
+
 fn main() {
     let mut rng = rand::thread_rng();
     loop {
@@ -10,11 +16,8 @@ fn main() {
         println!("2 : quit game");
         println!("Please enter selection:");
 
-        let mut selection = String::new();
-        stdin().read_line(&mut selection).expect("Invalid input.");
-
-        match selection.trim() {
-            "1" => {
+        match wait_menu_selection() {
+            MenuSelection::Play => {
                 let mut outcome = Outcome::Draw;
                 while outcome == Outcome::Draw {
                     println!("===========================");
@@ -50,8 +53,8 @@ fn main() {
                     }
                 }
             }
-            "2" => break,
-            x => println!("Invalid input: {x}"),
+            MenuSelection::Quit => break,
+            MenuSelection::None => continue,
         }
     }
 }
@@ -68,6 +71,16 @@ enum Outcome {
     Win,
     Draw,
     Lose,
+}
+
+fn wait_menu_selection() -> MenuSelection {
+    let mut selection = String::new();
+    stdin().read_line(&mut selection).expect("Invalid input.");
+    match selection.trim() {
+        "1" => MenuSelection::Play,
+        "2" => MenuSelection::Quit,
+        _ => MenuSelection::None,
+    }
 }
 
 fn check_result(player_selection: Item, opponent_selection: Item) -> Outcome {
