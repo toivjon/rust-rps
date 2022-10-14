@@ -2,12 +2,12 @@ use rand::{self, Rng};
 use std::io::stdin;
 
 fn main() {
-    println!("Rock Paper Scissors");
     let mut rng = rand::thread_rng();
     loop {
-        println!("MENU");
-        println!("  1   play game");
-        println!("  2   quit game");
+        println!("==========================");
+        println!("ROCK PAPER SCISSORS - MENU");
+        println!("1 : play game");
+        println!("2 : quit game");
         println!("Please enter selection:");
 
         let mut selection = String::new();
@@ -17,10 +17,11 @@ fn main() {
             "1" => {
                 let mut outcome = Outcome::Draw;
                 while outcome == Outcome::Draw {
-                    println!("GAME");
-                    println!("  r   rock");
-                    println!("  p   paper");
-                    println!("  s   scissors");
+                    println!("===========================");
+                    println!("ROCK PAPER SCISSORS - ROUND");
+                    println!("r : rock");
+                    println!("p : paper");
+                    println!("s : scissors");
                     println!("Please enter selection:");
 
                     let mut input = String::new();
