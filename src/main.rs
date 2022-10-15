@@ -1,4 +1,4 @@
-use rand::{self, Rng};
+use rand::Rng;
 use std::io::stdin;
 
 enum MenuSelection {
