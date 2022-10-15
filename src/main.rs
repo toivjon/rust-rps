@@ -4,7 +4,7 @@ use std::io::stdin;
 enum MenuSelection {
     Play,
     Quit,
-    None,
+    Invalid,
 }
 
 fn main() {
@@ -17,6 +17,7 @@ fn main() {
         println!("Please enter selection:");
 
         match wait_menu_selection() {
+            MenuSelection::Invalid => continue,
             MenuSelection::Play => {
                 let mut outcome = Outcome::Draw;
                 while outcome == Outcome::Draw {
@@ -46,7 +47,6 @@ fn main() {
                 }
             }
             MenuSelection::Quit => break,
-            MenuSelection::None => continue,
         }
     }
 }
@@ -72,7 +72,7 @@ fn wait_menu_selection() -> MenuSelection {
     match selection.trim() {
         "1" => MenuSelection::Play,
         "2" => MenuSelection::Quit,
-        _ => MenuSelection::None,
+        _ => MenuSelection::Invalid,
     }
 }
 
