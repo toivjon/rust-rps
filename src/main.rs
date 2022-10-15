@@ -43,9 +43,7 @@ fn main() {
                 match wait_ingame_selection() {
                     IngameSelection::Invalid => continue,
                     IngameSelection::Rock => match opponent_selection {
-                        IngameSelection::Invalid => {
-                            panic!("Invalid opponent selection!");
-                        }
+                        IngameSelection::Invalid => panic!("Invalid opponent selection!"),
                         IngameSelection::Rock => {
                             println!("Rock vs. Rock");
                             println!("We have a DRAW. Let's go for an another round!");
@@ -63,9 +61,7 @@ fn main() {
                         }
                     },
                     IngameSelection::Paper => match opponent_selection {
-                        IngameSelection::Invalid => {
-                            panic!("Invalid opponent selection!");
-                        }
+                        IngameSelection::Invalid => panic!("Invalid opponent selection!"),
                         IngameSelection::Rock => {
                             println!("Paper vs. Rock");
                             println!("Paper beats rock. You WIN. Congratulations!");
@@ -83,9 +79,7 @@ fn main() {
                         }
                     },
                     IngameSelection::Scissors => match opponent_selection {
-                        IngameSelection::Invalid => {
-                            panic!("Invalid opponent selection!");
-                        }
+                        IngameSelection::Invalid => panic!("Invalid opponent selection!"),
                         IngameSelection::Rock => {
                             println!("Scissors vs. Rock");
                             println!("Rock beats scissors. You LOSE. Congratulations!");
