@@ -8,11 +8,11 @@ enum MenuSelection {
 }
 
 #[derive(Debug)]
-enum Item {
+enum IngameSelection {
     Rock,
     Paper,
     Scissors,
-    None,
+    Invalid,
 }
 
 enum Outcome {
@@ -43,9 +43,9 @@ fn main() {
                 let player = wait_ingame_selection();
 
                 let opponent = match rng.gen_range(0..3) {
-                    0 => Item::Rock,
-                    1 => Item::Paper,
-                    _ => Item::Scissors,
+                    0 => IngameSelection::Rock,
+                    1 => IngameSelection::Paper,
+                    _ => IngameSelection::Scissors,
                 };
 
                 println!("Player   -> {:?}", player);
@@ -79,37 +79,37 @@ fn wait_menu_selection() -> MenuSelection {
     }
 }
 
-fn wait_ingame_selection() -> Item {
+fn wait_ingame_selection() -> IngameSelection {
     let mut input = String::new();
     stdin().read_line(&mut input).expect("Invalid input.");
     match input.trim() {
-        "r" => Item::Rock,
-        "p" => Item::Paper,
-        "s" => Item::Scissors,
-        _ => Item::None,
+        "r" => IngameSelection::Rock,
+        "p" => IngameSelection::Paper,
+        "s" => IngameSelection::Scissors,
+        _ => IngameSelection::Invalid,
     }
 }
 
-fn check_result(player_selection: Item, opponent_selection: Item) -> Outcome {
+fn check_result(player_selection: IngameSelection, opponent_selection: IngameSelection) -> Outcome {
     match player_selection {
-        Item::Rock => match opponent_selection {
-            Item::Rock => Outcome::Draw,
-            Item::Paper => Outcome::Lose,
-            Item::Scissors => Outcome::Win,
-            Item::None => panic!("Invalid opponent selection!"),
+        IngameSelection::Rock => match opponent_selection {
+            IngameSelection::Rock => Outcome::Draw,
+            IngameSelection::Paper => Outcome::Lose,
+            IngameSelection::Scissors => Outcome::Win,
+            IngameSelection::Invalid => panic!("Invalid opponent selection!"),
         },
-        Item::Paper => match opponent_selection {
-            Item::Rock => Outcome::Win,
-            Item::Paper => Outcome::Draw,
-            Item::Scissors => Outcome::Lose,
-            Item::None => panic!("Invalid opponent selection!"),
+        IngameSelection::Paper => match opponent_selection {
+            IngameSelection::Rock => Outcome::Win,
+            IngameSelection::Paper => Outcome::Draw,
+            IngameSelection::Scissors => Outcome::Lose,
+            IngameSelection::Invalid => panic!("Invalid opponent selection!"),
         },
-        Item::Scissors => match opponent_selection {
-            Item::Rock => Outcome::Lose,
-            Item::Paper => Outcome::Win,
-            Item::Scissors => Outcome::Draw,
-            Item::None => panic!("Invalid opponent selection!"),
+        IngameSelection::Scissors => match opponent_selection {
+            IngameSelection::Rock => Outcome::Lose,
+            IngameSelection::Paper => Outcome::Win,
+            IngameSelection::Scissors => Outcome::Draw,
+            IngameSelection::Invalid => panic!("Invalid opponent selection!"),
         },
-        Item::None => panic!("Invalid player selection!"),
+        IngameSelection::Invalid => panic!("Invalid player selection!"),
     }
 }
