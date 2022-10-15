@@ -7,6 +7,21 @@ enum MenuSelection {
     Invalid,
 }
 
+#[derive(Debug)]
+enum Item {
+    Rock,
+    Paper,
+    Scissors,
+    None,
+}
+
+#[derive(PartialEq)]
+enum Outcome {
+    Win,
+    Draw,
+    Lose,
+}
+
 fn main() {
     let mut rng = rand::thread_rng();
     loop {
@@ -49,21 +64,6 @@ fn main() {
             MenuSelection::Quit => break,
         }
     }
-}
-
-#[derive(Debug)]
-enum Item {
-    Rock,
-    Paper,
-    Scissors,
-    None,
-}
-
-#[derive(PartialEq)]
-enum Outcome {
-    Win,
-    Draw,
-    Lose,
 }
 
 fn wait_menu_selection() -> MenuSelection {
