@@ -15,7 +15,6 @@ enum Item {
     None,
 }
 
-#[derive(PartialEq)]
 enum Outcome {
     Win,
     Draw,
@@ -33,34 +32,38 @@ fn main() {
 
         match wait_menu_selection() {
             MenuSelection::Invalid => continue,
-            MenuSelection::Play => {
-                let mut outcome = Outcome::Draw;
-                while outcome == Outcome::Draw {
-                    println!("===========================");
-                    println!("ROCK PAPER SCISSORS - ROUND");
-                    println!("r : rock");
-                    println!("p : paper");
-                    println!("s : scissors");
-                    println!("Please enter selection:");
+            MenuSelection::Play => loop {
+                println!("===========================");
+                println!("ROCK PAPER SCISSORS - ROUND");
+                println!("r : rock");
+                println!("p : paper");
+                println!("s : scissors");
+                println!("Please enter selection:");
 
-                    let player = wait_ingame_selection();
+                let player = wait_ingame_selection();
 
-                    let opponent = match rng.gen_range(0..3) {
-                        0 => Item::Rock,
-                        1 => Item::Paper,
-                        _ => Item::Scissors,
-                    };
+                let opponent = match rng.gen_range(0..3) {
+                    0 => Item::Rock,
+                    1 => Item::Paper,
+                    _ => Item::Scissors,
+                };
 
-                    println!("Player   -> {:?}", player);
-                    println!("Opponent -> {:?}", opponent);
-                    outcome = check_result(player, opponent);
-                    match outcome {
-                        Outcome::Draw => println!("It's a DRAW! Let's have an another round!"),
-                        Outcome::Win => println!("You WIN! Congratulations!"),
-                        Outcome::Lose => println!("You LOSE! Better luck next time!"),
+                println!("Player   -> {:?}", player);
+                println!("Opponent -> {:?}", opponent);
+                match check_result(player, opponent) {
+                    Outcome::Draw => {
+                        println!("It's a DRAW! Let's have an another round!");
+                    }
+                    Outcome::Win => {
+                        println!("You WIN! Congratulations!");
+                        break;
+                    }
+                    Outcome::Lose => {
+                        println!("You LOSE! Better luck next time!");
+                        break;
                     }
                 }
-            }
+            },
             MenuSelection::Quit => break,
         }
     }
