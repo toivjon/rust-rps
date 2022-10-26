@@ -4,9 +4,9 @@ A simple text-based rock-paper-scissors game.
 
 ## Scenes
 
-Game is split into follow scenes.
+Game is split into following scenes.
 
-1. A main menu scene, which contains the a support to start or quit a game.
+1. A main menu scene, which contains the support to start or quit a game.
 2. An in-game scene, which contains the actual gameplay.
 
 ## Features
